@@ -201,11 +201,11 @@ Which for example:
 
 Suppose $`n=2`$
 
-We can see the function first start as $`p \left( 2,"",0 \right)`$,
+We can see the function first start as p(2,"",0)`,
 
-and we split into $`p \left(2,"a",1\right)`$ and $`p(2,"",1\right)`$
+and we split into p(2,"a",1) and p(2,"",1),
 
-then split into $`p\left(2,"ab",2\right)`$, $`p\left(2,"a",2\right)`$, $`p\left(2,"b",2\right)`$ and $`p\left(2,"",2\right)`$
+then split into p(2,"ab",2), p(2,"a",2), p(2,"b",2) and p\left(2,"",2)
 
 in the end we can get {(ab),(a),(b),()}
 
