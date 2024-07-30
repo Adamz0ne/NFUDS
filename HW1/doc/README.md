@@ -9,7 +9,7 @@ The rules for ackermann function is as follows:
 $`A(m,n) = \begin{cases}n+1 & \mbox{if } m = 0 \\A(m-1, 1) & \mbox{if } n = 0 \\A(m-1, A(m, n-1)) & otherwise.\end{cases}`$
 
 
-實作參見檔案 `problem1.cpp`，其遞迴函式：
+Refer to implementation in `problem1.cpp`, the recursive function:
 
 ```cpp
 int ackermann_r(int m, int n)
@@ -20,7 +20,7 @@ int ackermann_r(int m, int n)
 }
 ```
 
-及非遞迴函示：
+and non-recursive counterpart：
 
 ```cpp
 int ackermann_nr(int m, int n)
@@ -102,10 +102,10 @@ Which for example:
 
 $`A(1,1)`$
 
-$`A(0,A(1,0))`$
+By the rule when $`m \neg 0 and n \neg 0`$ we can get $`A(0,A(1,0))`$
 
-$`A(0,A(0,1))`$
+when $`m=0`$ $`A(0,A(0,1))`$
 
-$`A(0,2)`$
+when $`m=0`$ $`A(0,2)`$
 
 and we can get our final result $`3`$.
