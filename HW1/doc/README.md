@@ -5,7 +5,7 @@
 Find solution for recursive and non-recursive ackermann function.
 The rules for ackermann function is as follows:
 
-$`\begin{cases}n+1 & \mbox{if } m = 0 \\A(m-1, 1) & \mbox{if } m > 0 \mbox{ and } n = 0 \\A(m-1, A(m, n-1)) & \mbox{if } m > 0 \mbox{ and } n > 0.\end{cases}`$
+$`A(m,n) = \begin{cases}n+1 & \mbox{if } m = 0 \\A(m-1, 1) & \mbox{if } m > 0 \mbox{ and } n = 0 \\A(m-1, A(m, n-1)) & \mbox{if } m > 0 \mbox{ and } n > 0.\end{cases}`$
 
 
 實作參見檔案 `sum.cpp`，其遞迴函式：
