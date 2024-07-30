@@ -46,6 +46,6 @@ int main()
 	int m, n;
 	cin >> m >> n;
 	
-	cout << ackermann_r (m, n) << endl;
-	cout << ackermann_nr(m, n) << endl;
+	cout << "Recursive:    " << ackermann_r (m, n) << endl;
+	cout << "Non-Recursive:" << ackermann_nr(m, n) << endl;
 }
