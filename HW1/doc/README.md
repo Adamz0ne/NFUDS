@@ -193,7 +193,7 @@ int main()
 
 The function split into two parts,
 
-One including the current character, and one not including the current character.
+One including the current subset, and one not including the current subset.
 
 This recursion is very expensive on both time and space.
 
