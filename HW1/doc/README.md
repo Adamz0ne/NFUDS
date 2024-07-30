@@ -88,7 +88,7 @@ Non-Recursive:61
 
 ### 驗證
 
-This function terminate and returns output when $`m=1`$ recursively.
+This function terminate and returns output when $`m=0`$ recursively.
 
 In the recursive one we can just write an easy recursive function by following the rule set,
 
