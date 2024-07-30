@@ -102,7 +102,7 @@ Which for example:
 
 $`A(1,1)`$
 
-By the rule when $`m \not= 0  and  n \not= 0`$ we can get $`A(0,A(1,0))`$
+By the rule when $`m \not= 0  {and}  n \not= 0`$ we can get $`A(0,A(1,0))`$
 
 when $`m=0`$ $`A(0,A(0,1))`$
 
