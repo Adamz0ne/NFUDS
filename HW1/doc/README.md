@@ -109,3 +109,104 @@ when $`n=0`$ we can get $`A(0,A(0,1))`$,
 when $`m=0`$ we can get $`A(0,2)`$,
 
 and we can get our final result of $`3`$.
+
+
+
+# Problem-2 Recursive Powerset
+
+## 1. 解題說明
+
+Find a recursive function to generate powerset.
+
+A powerset is to find all possible subset of given set $`S`$
+
+For example $`S={a,b,c}`$
+
+The powerset of $`S`$ should be
+
+$`{(),(a),(b),(c),(ab),(ac),(bc),(abc)}`$
+
+Refer to implementation in `problem2.cpp`, the recursive function:
+
+```cpp
+void powerset(int n, string current, int index)
+{
+    // Output and return when n is equal to n
+    if (index == n) {
+        std::cout << "{" << current << "}" << std::endl;
+        return;
+    }
+    // Using type cast to turn integer into char
+
+    // Branch into a set containing current element
+    powerset(n, current + char('a' + index), index + 1);
+    // Branch into a set not containing current element
+    powerset(n, current, index + 1);
+}
+```
+
+
+## 2. 演算法設計與實作
+
+```cpp
+int main() 
+{
+    int n;
+    cin >> n;
+    // n represent the set from a to a+n-1
+    powerset(n, "", 0);
+}
+```
+
+## 2. 效能分析
+
+- $`f(n)=O(2^{n})`$, this recursion split half every time.
+- $`S(P)=n*2^{n}`$, the average size for subset is $`n/2`$, and we call the recursion $`2^{n}`$ times.
+- $`T(n)=c*2^n `$, every time we call the function $`c`$, and we call the recursion $`2^{n}`$ times.
+
+## 3. 測試與過程
+
+### Input
+
+```plain
+
+3
+
+```
+
+### Output
+
+```plain
+
+{abc}
+{ab}
+{ac}
+{a}
+{bc}
+{b}
+{c}
+{}
+
+```
+
+### 驗證
+
+The function split into two parts,
+
+One including the current character, and one not including the current character.
+
+This recursion is very expensive on both time and space.
+
+Which for example: 
+
+Suppose $`n=2`$
+
+We can see the function first start as $`p(2,"",0)`$,
+
+and we split into $`p(2,"a",1)`$ and $`p(2,"",1)`$
+
+then split into $`p(2,"ab",2)`$, $`p(2,"a",2)`$, $`p(2,"b",2)`$ and $`p(2,"",2)`$
+
+in the end we can get {(ab),(a),(b),()}
+
+even when n is small like two we can already see the nature of this function being $`2^{n}`$
