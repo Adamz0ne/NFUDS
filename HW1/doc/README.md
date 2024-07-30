@@ -99,8 +99,13 @@ by pushing m onto a stack manually we can get the same answer as the recursive w
 I tried to write the structure as similar as the recursive one.
 
 Which for example: 
+
 $`A(1,1)`$
+
 $`A(0,A(1,0))`$
+
 $`A(0,A(0,1))`$
+
 $`A(0,2)`$
+
 and we can get our final result $`3`$.
