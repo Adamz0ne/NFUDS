@@ -3,9 +3,11 @@
 
 using namespace std;
 
-void powerset(int n, string current, int index) {
+void powerset(int n, string current, int index) 
+{
     // Output and return when n is equal to n
-    if (index == n) {
+    if (index == n) 
+    {
         std::cout << "{" << current << "}" << std::endl;
         return;
     }
@@ -17,7 +19,8 @@ void powerset(int n, string current, int index) {
     powerset(n, current, index + 1);
 }
 
-int main() {
+int main() 
+{
     int n;
     cin >> n;
 
