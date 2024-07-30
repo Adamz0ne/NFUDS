@@ -1,12 +1,17 @@
-# HW 1 自然數之和
+# Problem-1 Ackermann Function
 
-## Problem-1
+## 1. 解題說明
 
-### 1. 解題說明
+Find solution for recursive and non-recursive ackermann function.
+The rules for ackermann function is as follows:
 
-以遞迴實作計算 N 階層的函式，已知階層計算公式如下：
+$$
+A(m,n) = \Bigg\{
+n+1             ,if m=0
+A(m-1,1)        ,if n=0
+A(m-1,A(m,n-1)) ,otherwise
+$$
 
-$$N! = N + (N-1)! = N + (N-1) + \dots + 2 + 1$$
 
 實作參見檔案 `sum.cpp`，其遞迴函式：
 
