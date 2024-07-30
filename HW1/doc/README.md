@@ -201,7 +201,7 @@ Which for example:
 
 Suppose $`n=2`$
 
-We can see the function first start as $`p\left(2,"",0\right)`$,
+We can see the function first start as $`p \left( 2,"",0 \right)`$,
 
 and we split into $`p \left(2,"a",1\right)`$ and $`p(2,"",1\right)`$
 
