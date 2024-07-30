@@ -5,7 +5,9 @@
 Find solution for recursive and non-recursive ackermann function.
 The rules for ackermann function is as follows:
 
-$A(m,n)$
+$
+A(m,n)
+$
 
 
 實作參見檔案 `sum.cpp`，其遞迴函式：
