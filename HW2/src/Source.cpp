@@ -48,8 +48,10 @@ public:
 		int aPos = 0;
 		int bPos = 0;
 		int biggest = -1;
-		if (this->termArray[0].exp > other.termArray[0].exp) biggest = termArray[0].exp;
-		else biggest = other.termArray[0].exp;
+		if (this->termArray[0].exp > other.termArray[0].exp) 
+			biggest = this->termArray[0].exp;
+		else 
+			biggest = other.termArray[0].exp;
 
 		while (biggest >= 0)
 		{
@@ -72,6 +74,25 @@ public:
 		}
 		return out;
 	}
+	Polynomial Mult(Polynomial other)
+	{
+		Polynomial out;
+		int cTemp = 0;
+		int eTemp = 0;
+		for (int i = 0; i < this->terms; i++)
+		{
+			Polynomial temp;
+			for (int j = 0; j < other.terms; j++)
+			{
+				cTemp = this->termArray[i].coef * other.termArray[j].coef;
+				eTemp = this->termArray[i].exp + other.termArray[j].exp;
+				temp.newTerm(cTemp, eTemp);
+			}
+			out = out.Add(temp);
+		}
+		return out;
+	}
+	
 	void printPolynomial()
 	{
 		int i = 0;
@@ -101,17 +122,17 @@ int main()
 {
 	Polynomial p;
 	Polynomial q;
-	p.newTerm(1, 7);
-	p.newTerm(2, 6);
-	p.newTerm(3, 5);
-	p.newTerm(4, 4);
-	q.newTerm(5, 3);
-	q.newTerm(6, 2);
-	q.newTerm(7, 1);
-	q.newTerm(8, 0);
+	p.newTerm(1, 2);
+	p.newTerm(1, 1);
+	p.newTerm(1, 0);
+	q.newTerm(2, 3);
+	q.newTerm(1, 2);
 	p.printPolynomial();
 	q.printPolynomial();
 	cout << "--------------------" << endl;
-	p = p.Add(q);
-	p.printPolynomial();
+	Polynomial r = p.Add(q);
+	r.printPolynomial();
+	cout << "--------------------" << endl;
+	Polynomial s = p.Mult(q);
+	s.printPolynomial();
 }
