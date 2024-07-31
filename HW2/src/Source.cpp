@@ -36,7 +36,9 @@ public:
 			copy(temp, temp + terms, termArray);
 			delete[] temp;
 		}
-
+		termArray[terms].coef = c;
+		termArray[terms].exp = e;
+		terms++;
 	}
 	Polynomial Add(Polynomial other)
 	{
