@@ -44,6 +44,7 @@ public:
 	}
 	Polynomial Add(Polynomial other)
 	{
+		Polynomial out;
 		int aPos = 0;
 		int bPos = 0;
 		int biggest = -1;
@@ -52,8 +53,24 @@ public:
 
 		while (biggest >= 0)
 		{
+			int c = 0;
+			if (this->termArray[aPos].exp == biggest)
+			{
+				c += this->termArray[aPos].coef;
+				aPos++;
+			}
+			if (other.termArray[bPos].exp == biggest)
+			{
+				c += other.termArray[bPos].coef;
+				bPos++;
+			}
+			if (c != 0)
+			{
+				out.newTerm(c, biggest);
+			}
 			biggest--;
 		}
+		return out;
 	}
 	void printPolynomial()
 	{
@@ -83,13 +100,18 @@ public:
 int main()
 {
 	Polynomial p;
-	p.newTerm(2, 7);
+	Polynomial q;
+	p.newTerm(1, 7);
 	p.newTerm(2, 6);
-	p.newTerm(2, 5);
-	p.newTerm(2, 4);
-	p.newTerm(2, 3);
-	p.newTerm(2, 2);
-	p.newTerm(2, 1);
-	p.newTerm(2, 0);
+	p.newTerm(3, 5);
+	p.newTerm(4, 4);
+	q.newTerm(5, 3);
+	q.newTerm(6, 2);
+	q.newTerm(7, 1);
+	q.newTerm(8, 0);
+	p.printPolynomial();
+	q.printPolynomial();
+	cout << "--------------------" << endl;
+	p = p.Add(q);
 	p.printPolynomial();
 }
