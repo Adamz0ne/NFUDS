@@ -1,53 +1,162 @@
 #include <iostream>
-#include <stack>
 
 using namespace std;
 
-//recursive solution for ackermann function
-int ackermann_r(int m, int n)
+class Polynomial;
+
+class Term
 {
-	if (m == 0) return n + 1;
-	if (n == 0) return ackermann_r(m - 1, 1);
-	return ackermann_r(m - 1, ackermann_r(m, n - 1));
+	friend Polynomial;
+	friend ostream& operator<<(ostream& os, const Polynomial& polynomial);
+	friend istream& operator>>(istream& is, const Polynomial& polynomial);
+private:
+	float coef;
+	int exp;
+};
+
+class Polynomial {
+	friend ostream& operator<<(ostream& os, const Polynomial& polynomial);
+	friend istream& operator>>(istream& is, Polynomial& polynomial);
+private:
+	Term* termArray;
+	int capacity;
+	int terms;
+public:
+	Polynomial()
+	{
+		capacity = 2;
+		terms = 0;
+		termArray = new Term[capacity];
+	}
+	void newTerm(float c, int e)
+	{
+		if (capacity == terms)
+		{
+			Term* temp = new Term[capacity];
+			copy(termArray, termArray + terms, temp);
+			capacity *= 2;
+			delete[] termArray;
+			termArray = new Term[capacity];
+			copy(temp, temp + terms, termArray);
+			delete[] temp;
+		}
+		termArray[terms].coef = c;
+		termArray[terms].exp = e;
+		terms++;
+	}
+
+	Polynomial Add(const Polynomial& other)
+	{
+		Polynomial out;
+		int aPos = 0;
+		int bPos = 0;
+		int biggest = -1;
+		if (this->termArray[0].exp > other.termArray[0].exp)
+			biggest = this->termArray[0].exp;
+		else
+			biggest = other.termArray[0].exp;
+
+		while (biggest >= 0)
+		{
+			int c = 0;
+			if (this->termArray[aPos].exp == biggest)
+			{
+				c += this->termArray[aPos].coef;
+				aPos++;
+			}
+			if (other.termArray[bPos].exp == biggest)
+			{
+				c += other.termArray[bPos].coef;
+				bPos++;
+			}
+			if (c != 0)
+			{
+				out.newTerm(c, biggest);
+			}
+			biggest--;
+		}
+		return out;
+	}
+
+	Polynomial Mult(const Polynomial& other)
+	{
+		Polynomial out;
+		int cTemp = 0;
+		int eTemp = 0;
+		for (int i = 0; i < this->terms; i++)
+		{
+			Polynomial temp;
+			for (int j = 0; j < other.terms; j++)
+			{
+				cTemp = this->termArray[i].coef * other.termArray[j].coef;
+				eTemp = this->termArray[i].exp + other.termArray[j].exp;
+				temp.newTerm(cTemp, eTemp);
+			}
+			out = out.Add(temp);
+		}
+		return out;
+	}
+
+};
+
+ostream& operator<<(ostream& os,const Polynomial& polynomial)
+{
+	int i = 0;
+	while (1)
+	{
+		if (polynomial.termArray[i].exp == 0)
+		{
+			os << polynomial.termArray[i].coef;
+		}
+		if (polynomial.termArray[i].exp == 1)
+		{
+			if (polynomial.termArray[i].coef == 1)
+				os << "x";
+			else
+				os << polynomial.termArray[i].coef << "x";
+		}
+		if (polynomial.termArray[i].exp > 1)
+		{
+			if (polynomial.termArray[i].coef == 1)
+				os << "x^" << polynomial.termArray[i].exp;
+			else
+				os << polynomial.termArray[i].coef << "x^" << polynomial.termArray[i].exp;
+		}
+		i++;
+		if (i == polynomial.terms)break;
+		os << " + ";
+	}
+	return os;
 }
 
-//non-recursive solution for ackermann function
-int ackermann_nr(int m, int n)
+istream& operator>>(istream& is, Polynomial& polynomial)
 {
-	stack<int> tracker;
-	tracker.push(m);
-
-	while (!tracker.empty())
+	float c;
+	int e;
+	is >> c >> e;
+	if (c == 0 && e == 0.0f)
 	{
-		m = tracker.top();
-		tracker.pop();
-
-		if (m == 0)
-		{
-			n += 1;
-		}
-		else if (n == 0)
-		{
-			tracker.push(m - 1);
-			n = 1;
-		}
-		else
-		{
-			tracker.push(m - 1);
-			tracker.push(m);
-			n -= 1;
-		}
+		is.setstate(std::ios::failbit);
+		return is;
 	}
-	return n;
+	polynomial.newTerm(c, e);
+	return is;
 }
 
 int main()
 {
-	int m, n;
-	cin >> m >> n;
+	Polynomial p;
+	Polynomial q;
 
-	cout << "Recursive:    " << ackermann_r(m, n) << endl;
-	cout << "Non-Recursive:" << ackermann_nr(m, n) << endl;
+	while (cin >> p);
+	cin.clear();
 
-	system("Pause");
+	while (cin >> q);
+	cin.clear();
+
+	cout << "--------------------" << endl;
+	cout << "p = " << p << endl;
+	cout << "q = " << q << endl;
+	cout << "p + q = " << p.Add(q) << endl;
+	cout << "p * q = " << p.Mult(q) << endl;
 }
