@@ -35,9 +35,11 @@ public:
 			termArray = new Term[capacity];
 			copy(temp, temp + terms, termArray);
 			delete[] temp;
+			cout << capacity << endl;
 		}
 		termArray[terms].coef = c;
 		termArray[terms].exp = e;
+		cout << "(" << c << ", " << e << ")" << endl;
 		terms++;
 	}
 	Polynomial Add(Polynomial other)
@@ -50,13 +52,44 @@ public:
 
 		while (biggest >= 0)
 		{
-
 			biggest--;
 		}
+	}
+	void printPolynomial()
+	{
+		int i = 0;
+		while (1)
+		{
+			if (termArray[i].exp == 0)
+			{
+				cout << termArray[i].coef;
+			}
+			if (termArray[i].exp == 1)
+			{
+				cout << termArray[i].coef << "x";
+			}
+			if (termArray[i].exp > 1)
+			{
+				cout << termArray[i].coef << "x^" << termArray[i].exp;
+			}
+			i++;
+			if (i == terms)break;
+			cout << " + ";
+		}
+		cout << endl;
 	}
 };
 
 int main()
 {
-	
+	Polynomial p;
+	p.newTerm(2, 7);
+	p.newTerm(2, 6);
+	p.newTerm(2, 5);
+	p.newTerm(2, 4);
+	p.newTerm(2, 3);
+	p.newTerm(2, 2);
+	p.newTerm(2, 1);
+	p.newTerm(2, 0);
+	p.printPolynomial();
 }
