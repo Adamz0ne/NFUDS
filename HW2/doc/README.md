@@ -27,11 +27,14 @@ Polynomial Add(const Polynomial& other)
 	int aPos = 0;
 	int bPos = 0;
 	int biggest = -1;
+	//Decide which polynomial contains greater degree
 	if (this->termArray[0].exp > other.termArray[0].exp)
 		biggest = this->termArray[0].exp;
 	else
 		biggest = other.termArray[0].exp;
 
+	//Loop from max degree to 0
+	//When finding the same as current degree add it's coefficient to output
 	while (biggest >= 0)
 	{
 		int c = 0;
@@ -69,15 +72,21 @@ Polynomial Mult(const Polynomial& other)
 	Polynomial out;
 	float cTemp = 0;
 	int eTemp = 0;
+	//Nested loop to multply each term of a function to the other
 	for (int i = 0; i < this->terms; i++)
 	{
+		//Temporary variavle to store current result
 		Polynomial temp;
 		for (int j = 0; j < other.terms; j++)
 		{
+			//Multply the coefficient of both polynomial
 			cTemp = this->termArray[i].coef * other.termArray[j].coef;
+			//Add the exponent of both polynomial
 			eTemp = this->termArray[i].exp + other.termArray[j].exp;
+			//Store current result to temp
 			temp.newTerm(cTemp, eTemp);
 		}
+		//Add current result to output
 		out = out.Add(temp);
 	}
 	return out;
@@ -92,16 +101,82 @@ Refer to implementation in `Source.cpp`, the eval implementation:
 
 ```cpp
 float Eval(float f)
+{
+	float out = 0;
+	//Loop through all terms and adds the result to output
+	//Following the rule c*f^e
+	for (int i = 0; i < terms; i++)
 	{
-		float out = 0;
-		for (int i = 0; i < terms; i++)
-		{
-			cout << termArray[i].coef * pow(f, termArray[i].exp) << endl;
-			out += termArray[i].coef * pow(f, termArray[i].exp);
-		}
-		return out;
+		out += termArray[i].coef * pow(f, termArray[i].exp);
 	}
+	return out;
+}
 ```
+
+When inputting data to class,should use overloaded cin(>>),
+Refer to implementation in `Source.cpp`, the cin overloading implementation:
+
+```cpp
+istream& operator>>(istream& is, Polynomial& polynomial)
+{
+	float c;
+	int e;
+	//We suppose user doesn't do unallowed input
+	//pipe from input stream to two temporary variable
+	is >> c >> e;
+	//Terminate condition
+	//Implementing like this needs to clear failbit after
+	if (c == 0 && e == 0.0f)
+	{
+		is.setstate(std::ios::failbit);
+		return is;
+	}
+	//Adding new term by using newTerm member function
+	polynomial.newTerm(c, e);
+	return is;
+}
+```
+
+When representing the result should use overloaded cout(<<),
+Refer to implementation in `Source.cpp`, the cout overloading implementation:
+
+```cpp
+ostream& operator<<(ostream& os, const Polynomial& polynomial)
+{
+	int i = 0;//Index to loop through all terms
+	//Loop through all terms and pipe into output stream
+	//Then return the result 
+	while (1)
+	{
+		//Handle constant case
+		if (polynomial.termArray[i].exp == 0)
+		{
+			os << polynomial.termArray[i].coef;
+		}
+		//Handle exponent=1 case
+		if (polynomial.termArray[i].exp == 1)
+		{
+			if (polynomial.termArray[i].coef == 1)
+				os << "x";
+			else
+				os << polynomial.termArray[i].coef << "x";
+		}
+		//Handle any other case
+		if (polynomial.termArray[i].exp > 1)
+		{
+			if (polynomial.termArray[i].coef == 1)
+				os << "x^" << polynomial.termArray[i].exp;
+			else
+				os << polynomial.termArray[i].coef << "x^" << polynomial.termArray[i].exp;
+		}
+		i++;
+		if (i == polynomial.terms)break;
+		os << " + ";
+	}
+	return os;
+}
+```
+
 ## 2. 演算法設計與實作
 
 ```cpp
