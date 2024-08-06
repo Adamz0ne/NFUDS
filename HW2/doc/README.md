@@ -12,6 +12,15 @@ For example:
 
 $`p=2x^5+3x^4+4x^3+8x^2+7x+9`$
 
+$`q=3x^4+7x^2+8x+19`$
+
+The result of $`p+q`$ whould be:
+
+$`2x^5+6x^4+4x^3+15x^2+15x+28`$
+
+The result of $`p*q`$ whould be:
+
+$`6x^9+9x^8+26x^7+61x^6+111x^5+172x^4+189x^3+271x^2+205x +171`$
 
 Refer to implementation in `problem1.cpp`, the recursive function:
 
