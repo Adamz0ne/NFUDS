@@ -260,9 +260,9 @@ which would be $`p(x)`$ having $`2x^2`$, thus set biggest to $`2`$
 
 starting from `biggest=2` we first add $`2x^2`$ to out,
 
-at `biggest=1` we add `x` and  `3x` to out,
+at `biggest=1` we add $`x`$ and  $`3x`$ to out,
 
-lastly at `biggest=0` we add `1` to out.
+lastly at `biggest=0` we add $`1`$ to out.
 
 In the end returns $`p(x)+q(x)=2x^2+4x+1`$
 
