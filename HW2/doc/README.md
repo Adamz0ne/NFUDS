@@ -202,11 +202,11 @@ int main()
 }
 ```
 
-## 2. 效能分析
+## 3. 效能分析
 
 - Due to the complexity and non primitive recursive nature of ackermann function, I can't find a definitive answer for it.
 
-## 3. 測試與過程
+## 4. 測試與過程
 
 ### Input
 
@@ -258,3 +258,22 @@ when $`n=0`$ we can get $`A(0,A(0,1))`$,
 when $`m=0`$ we can get $`A(0,2)`$,
 
 and we can get our final result of $`3`$.
+
+## 5. 效能量測
+
+## 6. 心得討論
+
+Not really sure if the implementation is optimized,
+
+Also the implementation on overlaoding cin(>>) haves some inconvenience,
+
+which I'm referring to the needing to clear cin bit state after finishing input each polynomial,
+
+I just really don't want to store data in some temporary variable and pipe into the class,
+
+which I can definitely do, but I think it kind of defeat the purpose of overloading cin.
+
+
+
+
+
