@@ -81,7 +81,7 @@ public:
 	Polynomial Mult(const Polynomial& other)
 	{
 		Polynomial out;
-		int cTemp = 0;
+		float cTemp = 0;
 		int eTemp = 0;
 		for (int i = 0; i < this->terms; i++)
 		{
