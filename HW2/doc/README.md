@@ -10,60 +10,97 @@ also overload both cin(>>) and cout(<<).
 
 For example:
 
-$`p=2x^5+3x^4+4x^3+8x^2+7x+9`$
+$`p(x)=2x^5+3x^4+4x^3+8x^2+7x+9`$
 
-$`q=3x^4+7x^2+8x+19`$
+$`q(x)=3x^4+7x^2+8x+19`$
 
-The result of $`p+q`$ should be:
+The result of $`p(x)+q(x)`$ should be:
 
 $`2x^5+6x^4+4x^3+15x^2+15x+28`$
 
-The result of $`p*q`$ should be:
+Refer to implementation in `Source.cpp`, the add implementation:
+
+```cpp
+Polynomial Add(const Polynomial& other)
+{
+	Polynomial out;
+	int aPos = 0;
+	int bPos = 0;
+	int biggest = -1;
+	if (this->termArray[0].exp > other.termArray[0].exp)
+		biggest = this->termArray[0].exp;
+	else
+		biggest = other.termArray[0].exp;
+
+	while (biggest >= 0)
+	{
+		int c = 0;
+		if (this->termArray[aPos].exp == biggest)
+		{
+			c += this->termArray[aPos].coef;
+			aPos++;
+		}
+		if (other.termArray[bPos].exp == biggest)
+		{
+			c += other.termArray[bPos].coef;
+			bPos++;
+		}
+		if (c != 0)
+		{
+			out.newTerm(c, biggest);
+		}
+		biggest--;
+	}
+	return out;
+}
+
+```
+
+
+The result of $`p(x)*q(x)`$ should be:
 
 $`6x^9+9x^8+26x^7+61x^6+111x^5+172x^4+189x^3+271x^2+205x +171`$
 
-Refer to implementation in `problem1.cpp`, the recursive function:
+Refer to implementation in `Source.cpp`, the mult implementation:
 
 ```cpp
-int ackermann_r(int m, int n)
+Polynomial Mult(const Polynomial& other)
 {
-	if (m == 0) return n + 1;
-	if (n == 0) return ackermann_r(m - 1, 1);
-	return ackermann_r(m - 1, ackermann_r(m, n - 1));
+	Polynomial out;
+	float cTemp = 0;
+	int eTemp = 0;
+	for (int i = 0; i < this->terms; i++)
+	{
+		Polynomial temp;
+		for (int j = 0; j < other.terms; j++)
+		{
+			cTemp = this->termArray[i].coef * other.termArray[j].coef;
+			eTemp = this->termArray[i].exp + other.termArray[j].exp;
+			temp.newTerm(cTemp, eTemp);
+		}
+		out = out.Add(temp);
+	}
+	return out;
 }
 ```
 
-and non-recursive counterpart：
+The result of $`p(2.5)`$ should be:
+
+$`451.5`$
+
+Refer to implementation in `Source.cpp`, the eval implementation:
 
 ```cpp
-int ackermann_nr(int m, int n)
-{
-	stack<int> tracker;
-	tracker.push(m);
-
-	while (!tracker.empty())
+float Eval(float f)
 	{
-		m = tracker.top();
-		tracker.pop();
-
-		if (m == 0)
+		float out = 0;
+		for (int i = 0; i < terms; i++)
 		{
-			n += 1;
+			cout << termArray[i].coef * pow(f, termArray[i].exp) << endl;
+			out += termArray[i].coef * pow(f, termArray[i].exp);
 		}
-		else if (n == 0)
-		{
-			tracker.push(m - 1);
-			n = 1;
-		}
-		else
-		{
-			tracker.push(m - 1);
-			tracker.push(m);
-			n -= 1;
-		}
+		return out;
 	}
-	return n;
-}
 ```
 ## 2. 演算法設計與實作
 
