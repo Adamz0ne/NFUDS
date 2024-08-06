@@ -204,7 +204,20 @@ int main()
 
 ## 3. 效能分析
 
-- Due to the complexity and non primitive recursive nature of ackermann function, I can't find a definitive answer for it.
+### Add
+
+-$`f(m+n) = O(n)`$, suppose $`n > m`$
+-$`S(P) = 3+n`$, n is the amount of total array length
+
+### Mult
+
+-$`f(m*n) = O(n^2)`$, suppose $`n > m`$
+-$`S(P) = 3+n^2`$, suppose $`n > m`$
+
+### Eval
+
+-$`f(n) = O(n)`$
+-$`S(P) = 2`$
 
 ## 4. 測試與過程
 
@@ -237,29 +250,45 @@ p(2.5) = 451.5
 
 ### 驗證
 
-This function terminate and returns output when $`m=0`$ recursively.
+Using $`p(x)=2x^2+x`$ and $`q(x)=3x+1`$ as example
 
-In the recursive one we can just write an easy recursive function by following the rule set,
+$`p(x)+q(x)`$:
 
-On the other hand the non-recursive one, we need to keep track of m,
+First we determine which has a greater degree,
 
-by pushing m onto a stack manually we can get the same answer as the recursive way.
+which would be $`p(x)`$ having $`2x^2`$, thus set biggest to $`2`$
 
-I tried to write the structure as similar as the recursive one.
+starting from `biggest=2` we first add $`2x^2`$ to out,
 
-Which for example: 
+at `biggest=1` we add `x` and  `3x` to out,
 
-$`A(1,1)`$
+lastly at `biggest=0` we add `1` to out.
 
-By the rule when $`m \not= 0`$ and $`n \not= 0`$ we can get $`A(0,A(1,0))`$,
+In the end returns $`p(x)+q(x)=2x^2+4x+1`$
 
-when $`n=0`$ we can get $`A(0,A(0,1))`$,
+$`p(x)*q(x)`$:
 
-when $`m=0`$ we can get $`A(0,2)`$,
+First we multiply $`2x^2`$ by $`3x`$ and add to out,
 
-and we can get our final result of $`3`$.
+then we multiply $`2x^2`$ by $`1`$ and add to out,
+
+then we multiply $`x`$ by $`3x`$ and add to out,
+
+then we multiply $`x`$ by $`1`$ and add to out.
+
+In the end returns $`6x^3+5x^2+x`$
+
+$`p(2)`$:
+
+$`2x^2`$ at $`x=2`$ we get $`8`$ and add to out,
+
+$`x`$ at $`x=2`$ we get $`2`$ and add to out.
+
+In the end returns $`10`$
 
 ## 5. 效能量測
+
+
 
 ## 6. 心得討論
 
