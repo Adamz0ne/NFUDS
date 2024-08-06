@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -28,6 +29,7 @@ public:
 		terms = 0;
 		termArray = new Term[capacity];
 	}
+
 	void newTerm(float c, int e)
 	{
 		if (capacity == terms)
@@ -97,9 +99,19 @@ public:
 		return out;
 	}
 
+	float Eval(float f)
+	{
+		float out = 0;
+		for (int i = 0; i < terms; i++)
+		{
+			out += termArray[i].coef * pow(f, termArray[i].exp);
+		}
+		return out;
+	}
+
 };
 
-ostream& operator<<(ostream& os,const Polynomial& polynomial)
+ostream& operator<<(ostream& os, const Polynomial& polynomial)
 {
 	int i = 0;
 	while (1)
@@ -123,7 +135,7 @@ ostream& operator<<(ostream& os,const Polynomial& polynomial)
 				os << polynomial.termArray[i].coef << "x^" << polynomial.termArray[i].exp;
 		}
 		i++;
-		if (i == polynomial.terms)break;
+		if (i == polynomial.terms) break;
 		os << " + ";
 	}
 	return os;
@@ -148,15 +160,16 @@ int main()
 	Polynomial p;
 	Polynomial q;
 
-	while (cin >> p);
-	cin.clear();
+	while (cin >> p);//overloaded cin
+	cin.clear();//clear cin state
 
 	while (cin >> q);
 	cin.clear();
 
-	cout << "--------------------" << endl;
-	cout << "p = " << p << endl;
-	cout << "q = " << q << endl;
-	cout << "p + q = " << p.Add(q) << endl;
-	cout << "p * q = " << p.Mult(q) << endl;
+	cout << "p(x) = " << p << endl;//overloaded cout
+	cout << "q(x) = " << q << endl;
+	cout << "p(x) + q(x) = " << p.Add(q) << endl;//Add p and q and cout
+	cout << "p(x) * q(x) = " << p.Mult(q) << endl;//Multply p and q and cout
+
+	cout << "p(2.5) = " << p.Eval(2.5) << endl;//Evaluate p(x) at 2.5
 }
