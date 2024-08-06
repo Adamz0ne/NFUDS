@@ -114,6 +114,7 @@ float Eval(float f)
 ```
 
 When inputting data to class,should use overloaded cin(>>),
+
 Refer to implementation in `Source.cpp`, the cin overloading implementation:
 
 ```cpp
@@ -138,6 +139,7 @@ istream& operator>>(istream& is, Polynomial& polynomial)
 ```
 
 When representing the result should use overloaded cout(<<),
+
 Refer to implementation in `Source.cpp`, the cout overloading implementation:
 
 ```cpp
@@ -182,10 +184,21 @@ ostream& operator<<(ostream& os, const Polynomial& polynomial)
 ```cpp
 int main()
 {
-	int m, n;
-	cin >> m >> n; //Input m and n	
-	cout << "Recursive:    " << ackermann_r (m, n) << endl; //Output for recusive solution
-	cout << "Non-Recursive:" << ackermann_nr(m, n) << endl; //Output for non-recusive solution
+	Polynomial p;
+	Polynomial q;
+
+	while (cin >> p);//overloaded cin
+	cin.clear();//clear cin state
+
+	while (cin >> q);
+	cin.clear();
+
+	cout << "p(x) = " << p << endl;//overloaded cout
+	cout << "q(x) = " << q << endl;
+	cout << "p(x) + q(x) = " << p.Add(q) << endl;//Add p and q and cout
+	cout << "p(x) * q(x) = " << p.Mult(q) << endl;//Multply p and q and cout
+
+	cout << "p(2.5) = " << p.Eval(2.5) << endl;//Evaluate p(x) at 2.5
 }
 ```
 
