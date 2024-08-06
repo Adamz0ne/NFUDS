@@ -288,6 +288,13 @@ In the end returns $`10`$
 
 ## 5. 效能量測
 
+Both $`p(x)`$ and $`q(x)`$ having 100 terms.
+
+Adding took `0.0066ms`
+
+Mutiplying took `3.4031ms`
+
+Evaluating $`p(x)`$ took `0.011ms`
 
 
 ## 6. 心得討論
