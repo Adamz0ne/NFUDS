@@ -3,6 +3,7 @@
 using namespace std;
 
 template <class T> class CircularList;
+class Polynomial;
 
 struct Term {
 	int coef;
@@ -15,6 +16,7 @@ class Node {
 	friend istream& operator>>(istream& is, Polynomial& x);
 	friend ostream& operator<<(ostream& os, Polynomial& x);
 	friend class CircularList<T>;
+	friend class Polynomial;
 private:
 	T data;
 	Node<T>* link;
@@ -22,6 +24,7 @@ private:
 
 template <class T>
 class CircularList {
+	friend class Polynomial;
 private:
 	Node<T>* headerNode;
 	Node<T>* last;
@@ -48,6 +51,11 @@ public:
 			x = new Node<T>;
 		}
 		return x;
+	}
+
+	void InsertFrom(const T& data)
+	{
+		
 	}
 
 	void RetNode(Node<T>*& x)
@@ -78,20 +86,36 @@ public:
 	Polynomial() {}
 	void NewTerm(int c, int e)
 	{
-		Node<Term> x
+		Node<Term>* x = poly.GetNode();
+		x->data.coef = c;
+		x->data.exp = e;
 	}
 
+	void printPoly()
+	{
+		Node<Term>* cur = poly.headerNode->link;
+
+		while (cur != poly.headerNode)
+		{
+			cout << cur->data.coef << " " << cur->data.exp << endl;
+			cur = cur->link;
+		}
+	}
 };
 
 istream& operator>>(istream& is, Polynomial& x) {
-
+	return is;
 }
-ostream& operator<<(ostream& os, Polynomial& x) {
 
+ostream& operator<<(ostream& os, Polynomial& x) {
+	return os;
 }
 
 int main()
 {
+	Polynomial p;
+	p.NewTerm(2, 2);
+	p.NewTerm(1, 1);
 
-	int a;
+	p.printPoly();
 }
