@@ -211,13 +211,13 @@ int main()
 
 ### Mult
 
--$`f(m*n) = O(n^2)`$, suppose $`n > m`$
--$`S(P) = 3+n^2`$, suppose $`n > m`$
+- $`f(m*n) = O(n^2)`$, suppose $`n > m`$
+- $`S(P) = 3+n^2`$, suppose $`n > m`$
 
 ### Eval
 
--$`f(n) = O(n)`$
--$`S(P) = 2`$
+- $`f(n) = O(n)`$
+- $`S(P) = 2`$
 
 ## 4. 測試與過程
 
