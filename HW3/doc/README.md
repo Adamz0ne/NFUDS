@@ -4,15 +4,67 @@
 
 Implement polynomial class in a circular list form as shown in its ADT,
 
-including overloading operator `cout(<<)`, `cin(>>)`, `add(+)`, `subtract(-)`, `multiply(*)` and `evaluate`
+including overloading operator `cout(<<)`, `cin(>>)`, `add(+)`, `subtract(-)`, `multiply(*)`, `assign(=)` and `evaluate`,
 
-also overload both cin(>>) and cout(<<).
+also should have a constructor, copy constrcutor and destructor.
 
 For example:
 
 $`p(x)=2x^5+3x^4+4x^3+8x^2+7x+9`$
 
 $`q(x)=3x^4+7x^2+8x+19`$
+
+Refer to implementation in `Source.cpp`, the copy constructor:
+
+```cpp
+Polynomial(const Polynomial& x) 
+{
+	Node<Term>* cur = x.poly.headerNode->link;
+	while (cur != x.poly.headerNode)
+	{
+		poly.headerNode->data.exp = -1;
+		this->NewTerm(cur->data.coef, cur->data.exp);
+		cur = cur->link;
+	}
+}
+
+```
+
+Refer to implementation in `Source.cpp`, the destructor:
+
+```cpp
+~Polynomial()
+{
+	Node<Term>* cur = poly.headerNode->link;
+	Node<Term>* deleteNode;
+	while (cur != poly.headerNode)
+	{
+		deleteNode = cur;
+		cur = cur->link;
+		poly.RetNode(deleteNode);	
+	}
+	poly.RetNode(cur); //return the header node
+}
+
+```
+
+Refer to implementation in `Source.cpp`, the assign operator:
+
+```cpp
+Polynomial operator=(const Polynomial& other)
+{
+	Polynomial out;
+	Node<Term>* cur = other.poly.headerNode->link;
+	while (cur != other.poly.headerNode)
+	{
+		poly.headerNode->data.exp = -1;
+		this->NewTerm(cur->data.coef, cur->data.exp);
+		cur = cur->link;
+	}
+	return out;
+}
+
+```
 
 The result of $`p(x)+q(x)`$ should be:
 
@@ -21,36 +73,34 @@ $`2x^5+6x^4+4x^3+15x^2+15x+28`$
 Refer to implementation in `Source.cpp`, the add implementation:
 
 ```cpp
-Polynomial Add(const Polynomial& other)
+Polynomial operator+(const Polynomial& other)
 {
+	Node<Term>* curA = this->poly.headerNode->link;
+	Node<Term>* curB = other.poly.headerNode->link;
 	Polynomial out;
-	int aPos = 0;
-	int bPos = 0;
-	int biggest = -1;
-	//Decide which polynomial contains greater degree
-	if (this->termArray[0].exp > other.termArray[0].exp)
-		biggest = this->termArray[0].exp;
+	int biggest;
+	if (curA->data.exp > curB->data.exp)
+		biggest = curA->data.exp;
 	else
-		biggest = other.termArray[0].exp;
+		biggest = curB->data.exp;
 
-	//Loop from max degree to 0
-	//When finding the same as current degree add it's coefficient to output
 	while (biggest >= 0)
 	{
 		int c = 0;
-		if (this->termArray[aPos].exp == biggest)
+
+		if (curA->data.exp == biggest)
 		{
-			c += this->termArray[aPos].coef;
-			aPos++;
+			c += curA->data.coef;
+			curA = curA->link;
 		}
-		if (other.termArray[bPos].exp == biggest)
+		if (curB->data.exp == biggest)
 		{
-			c += other.termArray[bPos].coef;
-			bPos++;
-		}
+			c += curB->data.coef;
+			curB = curB->link;
+		}		
 		if (c != 0)
 		{
-			out.newTerm(c, biggest);
+			out.NewTerm(c, biggest);
 		}
 		biggest--;
 	}
@@ -67,27 +117,35 @@ $`6x^9+9x^8+26x^7+61x^6+111x^5+172x^4+189x^3+271x^2+205x +171`$
 Refer to implementation in `Source.cpp`, the mult implementation:
 
 ```cpp
-Polynomial Mult(const Polynomial& other)
+Polynomial operator*(const Polynomial& other)
 {
 	Polynomial out;
+	Node<Term>* curA = this->poly.headerNode->link;
+	Node<Term>* curB = other.poly.headerNode->link;
 	float cTemp = 0;
 	int eTemp = 0;
-	//Nested loop to multply each term of a function to the other
-	for (int i = 0; i < this->terms; i++)
+	bool flag = true;
+	while(curA != this->poly.headerNode)
 	{
-		//Temporary variavle to store current result
 		Polynomial temp;
-		for (int j = 0; j < other.terms; j++)
+		while (curB != other.poly.headerNode)
 		{
-			//Multply the coefficient of both polynomial
-			cTemp = this->termArray[i].coef * other.termArray[j].coef;
-			//Add the exponent of both polynomial
-			eTemp = this->termArray[i].exp + other.termArray[j].exp;
-			//Store current result to temp
-			temp.newTerm(cTemp, eTemp);
+			cTemp = curA->data.coef * curB->data.coef;
+			eTemp = curA->data.exp + curB->data.exp;
+			temp.NewTerm(cTemp, eTemp);
+			curB = curB->link;
 		}
-		//Add current result to output
-		out = out.Add(temp);
+		if (flag)
+		{
+			out = temp;
+			flag = false;
+		}
+		else
+		{
+			out = out + temp;
+		}			
+		curB = other.poly.headerNode->link;
+		curA = curA->link;
 	}
 	return out;
 }
@@ -100,14 +158,14 @@ $`451.5`$
 Refer to implementation in `Source.cpp`, the eval implementation:
 
 ```cpp
-float Eval(float f)
+float Evaluate(const float f)
 {
+	Node<Term>* cur = poly.headerNode->link;
 	float out = 0;
-	//Loop through all terms and adds the result to output
-	//Following the rule c*f^e
-	for (int i = 0; i < terms; i++)
+	while (cur != poly.headerNode)
 	{
-		out += termArray[i].coef * pow(f, termArray[i].exp);
+		out += cur->data.coef * pow(f, cur->data.exp);
+		cur = cur->link;
 	}
 	return out;
 }
@@ -118,22 +176,11 @@ When inputting data to class,should use overloaded cin(>>),
 Refer to implementation in `Source.cpp`, the cin overloading implementation:
 
 ```cpp
-istream& operator>>(istream& is, Polynomial& polynomial)
-{
-	float c;
-	int e;
-	//We suppose user doesn't do unallowed input
-	//pipe from input stream to two temporary variable
-	is >> c >> e;
-	//Terminate condition
-	//Implementing like this needs to clear failbit after
-	if (c == 0 && e == 0.0f)
-	{
-		is.setstate(std::ios::failbit);
-		return is;
-	}
-	//Adding new term by using newTerm member function
-	polynomial.newTerm(c, e);
+istream& operator>>(istream& is, Polynomial& x) {
+	int cTemp;
+	int eTemp;
+	is >> cTemp >> eTemp;
+	x.NewTerm(cTemp, eTemp);
 	return is;
 }
 ```
@@ -143,37 +190,32 @@ When representing the result should use overloaded cout(<<),
 Refer to implementation in `Source.cpp`, the cout overloading implementation:
 
 ```cpp
-ostream& operator<<(ostream& os, const Polynomial& polynomial)
-{
-	int i = 0;//Index to loop through all terms
-	//Loop through all terms and pipe into output stream
-	//Then return the result 
-	while (1)
+ostream& operator<<(ostream& os, Polynomial& x) {
+
+	Node<Term>* cur = x.poly.headerNode->link;
+
+	while (cur != x.poly.headerNode )
 	{
-		//Handle constant case
-		if (polynomial.termArray[i].exp == 0)
+		if (cur->data.exp == 0)
 		{
-			os << polynomial.termArray[i].coef;
+			os << cur->data.coef;
 		}
-		//Handle exponent=1 case
-		if (polynomial.termArray[i].exp == 1)
+		else if (cur->data.exp == 1)
 		{
-			if (polynomial.termArray[i].coef == 1)
+			if (cur->data.coef == 1)
 				os << "x";
 			else
-				os << polynomial.termArray[i].coef << "x";
+				os << cur->data.coef << "x";
 		}
-		//Handle any other case
-		if (polynomial.termArray[i].exp > 1)
+		else
 		{
-			if (polynomial.termArray[i].coef == 1)
-				os << "x^" << polynomial.termArray[i].exp;
+			if (cur->data.coef == 1)
+				os << "x^" << cur->data.exp;
 			else
-				os << polynomial.termArray[i].coef << "x^" << polynomial.termArray[i].exp;
+				os << cur->data.coef << "x^" << cur->data.exp;
 		}
-		i++;
-		if (i == polynomial.terms)break;
-		os << " + ";
+		if (cur != x.poly.last) os << " + ";
+		cur = cur->link;
 	}
 	return os;
 }
@@ -185,20 +227,24 @@ ostream& operator<<(ostream& os, const Polynomial& polynomial)
 int main()
 {
 	Polynomial p;
-	Polynomial q;
 
-	while (cin >> p);//overloaded cin
-	cin.clear();//clear cin state
+	int n;
+	cin >> n;
+	
+	while (n--)
+	{
+		cin >> p;
+	}
+	Polynomial q(p); //copy the same data to save my time
+	cout << p << endl;
+	cout << q << endl;
+	Polynomial r = p + q;
+	Polynomial s = p * q;
+	cout << r << endl;
+	cout << s << endl;
+	cout << s.Evaluate(2.5f);
 
-	while (cin >> q);
-	cin.clear();
-
-	cout << "p(x) = " << p << endl;//overloaded cout
-	cout << "q(x) = " << q << endl;
-	cout << "p(x) + q(x) = " << p.Add(q) << endl;//Add p and q and cout
-	cout << "p(x) * q(x) = " << p.Mult(q) << endl;//Multply p and q and cout
-
-	cout << "p(2.5) = " << p.Eval(2.5) << endl;//Evaluate p(x) at 2.5
+	system("Pause");
 }
 ```
 
@@ -224,28 +270,19 @@ int main()
 ### Input
 
 ```plain
-2 5
-3 4
-4 3
-8 2
-7 1
-9 0
-0 0
-3 4
-7 2
-8 1
-19 0
-0 0
+3
+4 4
+3 3
+2 2
 ```
 
 ### Output
 
 ```plain
-p(x) = 2x^5 + 3x^4 + 4x^3 + 8x^2 + 7x + 9
-q(x) = 3x^4 + 7x^2 + 8x + 19
-p(x) + q(x) = 2x^5 + 6x^4 + 4x^3 + 15x^2 + 15x + 28
-p(x) * q(x) = 6x^9 + 9x^8 + 26x^7 + 61x^6 + 111x^5 + 172x^4 + 189x^3 + 271x^2 + 205x + 171
-p(2.5) = 451.5
+p(x)= 4x^4 + 3x^3 + 2x^2
+q(x)= 4x^4 + 3x^3 + 2x^2
+p(x)+q(x)=r(x)= 8x^4 + 6x^3 + 4x^2
+p(x)+q(x)=s(x)= 16x^8 + 12x^7 + 8x^6 + 16x^8 + 24x^7 + 17x^6 + 6x^5 + 16x^8 + 12x^7 + 16x^6 + 6x^5 + 4x^4
 ```
 
 ### 驗證
@@ -290,24 +327,26 @@ In the end returns $`10`$
 
 Both $`p(x)`$ and $`q(x)`$ having 100 terms.
 
-Adding took `0.0066ms`
+Adding took `0.0035ms`
 
-Mutiplying took `3.4031ms`
+Mutiplying took `0.01ms`
 
-Evaluating $`p(x)`$ took `0.011ms`
+Evaluating $`p(x)`$ took `0.005ms`
 
 
 ## 6. 心得討論
 
-Not really sure if the implementation is optimized,
+Using a circular list to implement things is kind of harder then normal implementation,
 
-Also the implementation on overlaoding cin(>>) haves some inconvenience,
+during programming phase there's always some weird nullptr problem,
 
-which I'm referring to the needing to clear cin bit state after finishing input each polynomial,
+but besides that it's quite simple,
 
-I just really don't want to store data in some temporary variable and pipe into the class,
+also we can tell that this is actually quite efficient than we did on HW2,
 
-which I can definitely do, but I think it kind of defeat the purpose of overloading cin.
+knowing that some data structure technique is definetely better.
+
+
 
 
 
