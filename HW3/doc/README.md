@@ -252,13 +252,13 @@ int main()
 
 ### Add
 
--$`f(m+n) = O(n)`$, suppose $`n > m`$
--$`S(P) = 3+n`$, n is the amount of total array length
+- $`f(m+n) = O(n)`$, suppose $`n > m`$
+- $`S(P) = 3+n`$, n is the amount of total array length
 
 ### Mult
 
--$`f(m*n) = O(n^2)`$, suppose $`n > m`$
--$`S(P) = 3+n^2`$, suppose $`n > m`$
+- $`f(m*n) = O(n^2)`$, suppose $`n > m`$
+- $`S(P) = 3+n^2`$, suppose $`n > m`$
 
 ### Eval
 
