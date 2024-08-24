@@ -1,4 +1,4 @@
-# Polynomial
+# Polynomial With Circular List
 
 ## 1. 解題說明
 
